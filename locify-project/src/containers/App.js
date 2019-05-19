@@ -8,10 +8,10 @@ import Post from '../components/Post';
 const App = () => (
 <div style={{border:'2px solid black', marginTop:'80px'}} className='container'>
   <Router>
-    <div>
+    <div className='container'>
       <Switch>
         <Route path='/' exact component={Home} />
-        <Route path="/:postId" component={Post} /> 
+        <Route path='/:postId' component={Post} /> 
         <Route render={() => <h1>Four oh Four.</h1>} />
       </Switch>
     </div>

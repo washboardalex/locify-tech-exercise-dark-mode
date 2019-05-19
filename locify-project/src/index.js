@@ -1,15 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import { createStore, applyMiddleware } from 'redux';
+import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
 import thunkMiddleware from 'redux-thunk';
-import { getPosts } from './_redux/reducers'
+import { getPosts, getPostAndComment } from './_redux/reducers'
 import App from './containers/App';
 import * as serviceWorker from './serviceWorker';
 
+const rootReducer = combineReducers({getPosts, getPostAndComment});
+//Allows use of redux devtools in Chrome
+const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-const store = createStore(getPosts, applyMiddleware(thunkMiddleware))
+const store = createStore(rootReducer, composeEnhancer(applyMiddleware(thunkMiddleware)));
 
 ReactDOM.render(
     <Provider store={store}>

@@ -1,31 +1,40 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 
-import { getPosts } from '../_redux/actions';
+import { getPosts, increasePostsDisplayed } from '../_redux/actions';
+import PostPreview from './PostPreview';
 
 const mapStateToProps = (state) => {
-  const { posts, loading } = state;
+  const { posts, loading, numPosts, addNumPosts } = state.getPosts;
   return {
-    posts, loading
+    posts, loading, numPosts, addNumPosts
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getPosts: () => dispatch(getPosts())
+    getPosts: (startIndex, addNumPosts) => dispatch(getPosts(startIndex, addNumPosts)),
+    increasePostsDisplayed: (numPosts, addNumPosts) => dispatch(increasePostsDisplayed(numPosts, addNumPosts))
   }
 }
 
 class Home extends Component {
 
   componentDidMount() {
-    const { posts, getPosts } = this.props;
-    !posts && getPosts();
+    const { posts, getPosts, numPosts, addNumPosts } = this.props;
+
+    posts.length < numPosts && getPosts(posts.length, addNumPosts);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { posts, getPosts, numPosts, addNumPosts } = this.props;
+    if (nextProps.numPosts > numPosts) {
+      getPosts(posts.length, addNumPosts)
+    }
   }
 
   render() {
-    const {posts} = this.props;
+    const {posts, increasePostsDisplayed, numPosts, addNumPosts } = this.props;
 
     return (
       <Fragment>
@@ -34,19 +43,20 @@ class Home extends Component {
         </div>
         <div className='row'>
           {posts && posts.map(({title, body, id}) => (
-            <div key={id} className='col-12'>
-              <Link 
-                to={`${id}`}
-              >
-                <h5>{title}</h5>
-              </Link>
-              <p>{body.slice(0,20)+'...'}</p>
-            </div>
+            <PostPreview
+              key={id}
+              title={title}
+              body={body}
+              id={id}
+            />
           ))}
         </div>
+        {numPosts < 100 && 
+          <button onClick={() => increasePostsDisplayed(numPosts, addNumPosts)}>Load more articles...</button>
+        }
       </Fragment>
     );
   }
-} 
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

@@ -6,17 +6,18 @@ import Post from '../components/Post';
 
 
 const App = () => (
-<div style={{border:'2px solid black', marginTop:'80px'}} className='container'>
+  
+<div style={{marginTop:'80px', marginBottom:'80px'}} className='container'>
   <Router>
-    <div className='container'>
-      <Switch>
-        <Route path='/' exact component={Home} />
-        <Route path='/:postId' component={Post} /> 
-        <Route render={() => <h1>Four oh Four.</h1>} />
-      </Switch>
-    </div>
-  </Router>
-</div>
+      <div style={{border:'2px solid black'}}>
+        <Switch>
+          <Route path='/' exact component={Home} />
+          <Route path='/:postId' component={Post} /> 
+          <Route render={() => <h1>Four oh Four.</h1>} />
+        </Switch>
+      </div>
+    </Router>
+  </div>
 )
 
 export default App;

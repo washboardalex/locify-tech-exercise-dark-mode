@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 import { getPosts, increasePostsDisplayed } from '../_redux/actions';
 import PostList from './PostList';
 import Loading from './Loading';
+import BooksSVG from './BooksSVG';
 import img  from '../static/face_opt.jpg'
-import books from '../static/books.svg';
 
 const mapStateToProps = (state) => {
   const { posts, loading, numPosts, addNumPosts } = state.getPosts;
@@ -36,8 +36,12 @@ class Home extends Component {
     }
   }
 
+ 
+
   render() {
     const {posts, increasePostsDisplayed, loading, numPosts, addNumPosts } = this.props;
+
+    
 
     return (
       <Fragment>
@@ -50,7 +54,7 @@ class Home extends Component {
           </div>
         </div>
         <div className='center row'>
-          <div style={{ width:'70%', backgroundColor:'rgba(255,255,255,0.9)' }} >
+          <div style={{ width:'70%' }} >
             <div style={{marginTop:'50px', marginBottom:'10px'}} className='center col-12'><h1>Posts</h1></div>
             <PostList posts={posts} />          
           </div>
@@ -60,12 +64,7 @@ class Home extends Component {
           {!loading && (numPosts < 100 
             ? 
             <div className="col-12 drctn-col">
-              <img 
-                src={books} 
-                alt='load more posts' 
-                className='load-button' 
-                onClick={() => increasePostsDisplayed(numPosts, addNumPosts)} 
-              />
+              <BooksSVG increasePostsDisplayed={increasePostsDisplayed} numPosts={numPosts} addNumPosts={addNumPosts} />
               <span>Load more</span>
             </div>
             : <span>All articles loaded.</span>

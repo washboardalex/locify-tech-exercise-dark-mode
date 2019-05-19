@@ -5,7 +5,9 @@ import { getPostAndComment, likePost } from '../_redux/actions';
 import NewComment from './NewComment';
 import CommentsList from './CommentsList';
 import Loading from './Loading';
-import likeBtn from '../static/like.svg';
+import DarkModeHeading from './DarkModeHeading';
+import DarkModeComments from './DarkModeComments';
+import LikeSVG from './LikeSVG';
 
 const mapStateToProps = (state) => {
     const { title, body, comments, likes, id, loading, hasLiked } = state.getPostAndComment
@@ -55,22 +57,15 @@ class Post extends Component {
                     :
                     <Fragment>
                         <div className='row mgn-crct center'>
-                            <div>
-                                <h1 style={{borderBottom:'1px solid black'}}>{title}</h1>
-                                <p>{body}</p>
-                            </div>
+                            <DarkModeHeading title={title} body={body} />
                         </div>
                         <div style={{marginLeft:'10px', marginBottom:'10px'}} className='row mgn-crct'>
-                            <div className='col-12'>
-                                <span><img className='thmb' onClick={likePost} src={likeBtn} alt='thumbs up!' /> {likes} likes</span>
-                            </div>
+                            <LikeSVG likePost={likePost} likes={likes} />
                             <div className='col-12'>
                                 <span style={{marginLeft:'-10px'}}> {hasLiked && 'Thanks!' } </span>
                             </div>
                         </div>
-                        <div className="row mgn-crct">
-                            <h1 style={{borderBottom:'1px solid black', width:'100%', marginBottom:'25px'}}>Comments</h1>
-                        </div>
+                        <DarkModeComments />
                         <div className='drctn-col' >
                             <div style={{width:'70%'}}>
                                 <div className='row mgn-crct'>
@@ -79,7 +74,6 @@ class Post extends Component {
                                 </div>
                             </div>
                         </div>
-                        
                     </Fragment>
                 }  
             </div>
